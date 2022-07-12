@@ -15,6 +15,8 @@ BarcodeGenerator = Callable[[str], bytes]
 module_x_dim_mm = 0.7
 module_x_dim_inches = module_x_dim_mm * 0.0393701
 dpi = 157.35
+
+
 def save_to_file(filename, data: bytes):
     with open(filename, "wb") as f:
         f.write(data)
@@ -73,8 +75,6 @@ def good_barcode_text() -> str:
 )
 def bad_barcode_text(request) -> dict:
     return request.param
-
-
 
 
 @pytest.fixture(
