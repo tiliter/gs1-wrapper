@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 # A. Create library
-c_library = ctypes.CDLL("build-artifacts/libgs1encoders.so")
+c_library = ctypes.CDLL("build_artifacts/libgs1encoders.so")
 
 
 # define expected arguments and return types
