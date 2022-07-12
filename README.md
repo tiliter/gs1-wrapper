@@ -2,6 +2,8 @@
 
 A thin Python wrapper around https://github.com/gs1/gs1-barcode-engine.
 
+Docs: https://gs1-barcode-engine-python-wrapper.readthedocs.io/en/latest/
+
 Example usage: 
 
 ```

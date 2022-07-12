@@ -6,6 +6,10 @@
 Welcome to py-gs1-barcode-engine's documentation!
 =================================================
 
+A thin wrapper of gs1-barcode-engine. (https://github.com/gs1/gs1-barcode-engine)
+
+.. autofunction:: py_gs1_barcode_engine.generate_gs1_datamatrix
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

@@ -4,14 +4,14 @@ import ctypes
 from dataclasses import dataclass
 from typing import Optional
 from enum import Enum
-
+import pathlib
 
 class Gs1GeneratorError(Exception):
     pass
 
 
 # A. Create library
-c_library = ctypes.CDLL("build_artifacts/libgs1encoders.so")
+c_library = ctypes.CDLL(str(pathlib.Path(__file__).resolve().parent / "build_artifacts/libgs1encoders.so"))
 
 
 # define expected arguments and return types
@@ -223,12 +223,69 @@ OUTPUT_TO_STREAM = ""
 
 def generate_gs1_datamatrix(
     data: str,
-    x_undercut: Optional[float] = None,
-    y_undercut: Optional[float] = None,
     dm_rows: Optional[int] = None,
     dm_cols: Optional[int] = None,
     scaling: Optional[dict] = None,
+    x_undercut: Optional[float] = None,
+    y_undercut: Optional[float] = None,
 ) -> bytes:
+
+    """
+    Generate a GS1 datamatrix.
+
+    
+
+    :param data: Data to encode in barcode.
+    :type data: str
+    :param dm_rows: Define the number of rows in the data matrix. \
+        If None, then gs1_barcode_engine will choose an appropriate value. \
+        See gs1_encoder_getDmRows_. 
+    
+    :type dm_rows: int or None
+    :param dm_cols: Define the number of columns in the data matrix. \
+        If None, then gs1_barcode_engine will choose an appropriate value. \
+        See gs1_encoder_setDmColumns_. 
+    :type dm_cols: int or None
+    :param scaling: Scaling parameters to define the size of the generated output. \
+        This can be one of two styles. See `Image Scaling Models`_ for more details.
+
+        Pixel scaling
+            - No regard for physical dimensions - define module width in units of pixels
+            - Use if physical dimensions are not known or are not important
+            - Pass a dictionary containing one key ``pix_mult`` with an int value which is the width of a module in units of pixels. \
+                e.g. ``{"pix_mult": 5}``.
+
+        Device dot scaling, 
+            - Define resolution of target medium and target module dimensions in physical dimensions.
+            - Use if resolution of the output medium and target physical size are important.
+            - Pass a dictionary with keys ``resolution`` (float) and ``target_x_dim`` (float), and optionally \
+                the keys ``min_x_dim`` (float) and ``max_x_dim`` (float). \
+                These quantities must be in the same unit of measurement e.g. DPI and inches, otherwise this function may yield unexpected results. \
+                e.g. ``{"resolution": 300, "target_x_dim": 0.1}`` 
+
+        The library will attempt to meet these contraints and if these constraints are invalid, \
+        py_gs1_barcode_engine.Gs1GeneratorError will be raised.
+    :type scaling: dict or None
+    :param x_undercut: Compensate for horizontal print growth by shaving this number of pixels from \
+        both sides of each module. None is equivalent to 0. See gs1_encoder_setXundercut_.
+    :type x_undercut: float or None
+    :param y_undercut: Compensate for vertical print growth by shaving this number of pixels from \ 
+        both sides of each module. None is equivalent to 0. See gs1_encoder_setYundercut_.
+    :type y_undercut: float or None
+    
+    :raise py_gs1_barcode_engine.Gs1GeneratorError: If the underlying library raises an exception.
+
+    :return: BMP image as bytes
+    :rtype: bytes
+
+    .. _gs1_encoder_getDmRows: https://gs1.github.io/gs1-barcode-engine/gs1encoders_8h.html#af9cc3e5dec885cc55aeede3d4163256c
+    .. _gs1_encoder_setDmColumns: https://gs1.github.io/gs1-barcode-engine/gs1encoders_8h.html#ac0058e7f2ba0c14bbb1b60dc31d039d2
+    .. _gs1_encoder_setXundercut: https://gs1.github.io/gs1-barcode-engine/gs1encoders_8h.html#a290b68be80ac8199ae624af65ecec689
+    .. _gs1_encoder_setYundercut: https://gs1.github.io/gs1-barcode-engine/gs1encoders_8h.html#acc6d1ea4f94c108396a759213a7ecfc7
+    .. _`Image Scaling Models`: https://gs1.github.io/gs1-barcode-engine/gs1encoders_8h.html#a290b68be80ac8199ae624af65ecec689:~:text=in%20production%20code.-,Image%20scaling%20models,-This%20library%20generates
+
+
+    """
 
     if scaling:
         scaling_params = ScalingParams.factory(scaling)
