@@ -7,6 +7,7 @@ rm -rf gs1-barcode-engine
 
 git clone https://github.com/gs1/gs1-barcode-engine.git
 cd gs1-barcode-engine/src/c-lib
+make test
 make
 cp build/*.* ../../../build_artifacts
 
