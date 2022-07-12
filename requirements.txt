@@ -1,2 +1,1 @@
-treepoem==3.14.0
 pytest==7.1.2

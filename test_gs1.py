@@ -1,4 +1,4 @@
-import treepoem
+
 import time
 from typing import Callable
 import pytest
@@ -13,19 +13,6 @@ from gs1_barcode_enginer_wrapper import generate_gs1_datamatrix
 # Output is PNG encoded data as `bytes`
 BarcodeGenerator = Callable[[str], bytes]
 
-
-# time: ~230ms
-def treepoem_generator(barcode_text: str) -> bytes:
-    # todo: what size of barcode do i need to generate?!?!?!
-    # looks like 20x20 for the time being.
-    im = treepoem.generate_barcode(barcode_type="gs1datamatrix", data=barcode_text)
-    # return im.tobytes(encoder_name="raw")
-    stream = io.BytesIO()
-    im.save(stream, format="PNG")
-    barcode_png_data = stream.getvalue()
-
-    save_to_file("output/treepoem.png", barcode_png_data)
-    return barcode_png_data
 
 
 def save_to_file(filename, data: bytes):
@@ -64,7 +51,6 @@ def barcode_text() -> str:
 
 @pytest.fixture
 def generator() -> BarcodeGenerator:
-    # return treepoem_generator
     return gs1_bartcode_engine_wrapper_generator
 
 
