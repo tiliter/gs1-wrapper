@@ -1,11 +1,13 @@
-# use wrapper around https://github.com/gs1/gs1-barcode-engine
-# cloned to gs1-barcode-engine
-# TODO(EDWARD): fix pathing
 # TODO(EDWARD): packaging
 
 import ctypes
 from dataclasses import dataclass
 from typing import Optional
+
+
+class Gs1GeneratorError(Exception):
+    pass
+
 
 # A. Create library
 c_library = ctypes.CDLL("build_artifacts/libgs1encoders.so")
@@ -92,17 +94,28 @@ c_library.gs1_encoder_copyOutputBuffer.argtypes = [
 c_library.gs1_encoder_getBuffer.restype = ctypes.c_size_t
 c_library.gs1_encoder_getBuffer.argtypes = [ctx_pointer_type]
 
-
-# c_library.gs1_encoder_free.restype=ctypes.
 c_library.gs1_encoder_free.argtypes = [ctx_pointer_type]
 
-
-# TODO: handle errors properly
+c_library.gs1_encoder_getErrMsg.restype = ctypes.c_char_p
+c_library.gs1_encoder_getErrMsg.argtypes = [ctx_pointer_type]
 
 
 @dataclass
 class ScalingParams:
-    pass
+    @classmethod
+    def factory(cls, args: dict):
+        if "pix_mult" in args:
+            cls = PixelScaling
+        else:
+            cls = DeviceDotScaling
+
+            args["min_x_dim"] = (
+                args["min_x_dim"] if args.get("min_x_dim") is not None else 0
+            )
+            args["max_x_dim"] = (
+                args["max_x_dim"] if args.get("max_x_dim") is not None else 0
+            )
+        return cls(**args)
 
 
 @dataclass
@@ -118,23 +131,46 @@ class DeviceDotScaling(ScalingParams):
     max_x_dim: float
 
 
-def scaling_params_factory(args: dict) -> ScalingParams:
-    if "pix_mult" in args:
-        cls = PixelScaling
-    else:
-        cls = DeviceDotScaling
-        
-        args['min_x_dim']=args['min_x_dim'] if args.get('min_x_dim') is not None else 0
-        args['max_x_dim']=args['max_x_dim'] if args.get('max_x_dim') is not None else 0
-    return cls(**args)
-
-
 @dataclass
 class DotScalingParams:
     resolution: float
     target_x_dim: float
     min_x_dim: Optional[float] = None
     max_x_dim: Optional[float] = None
+
+
+# TODO read these enums from object file
+gs1_encoder_sNONE = -1  #        ///< None defined
+gs1_encoder_sDataBarOmni = 0  #     ///< GS1 DataBar Omnidirectional
+gs1_encoder_sDataBarTruncated = 1  #     ///< GS1 DataBar Truncated
+gs1_encoder_sDataBarStacked = 2  #     ///< GS1 DataBar Stacked
+gs1_encoder_sDataBarStackedOmni = 3  #     ///< GS1 DataBar Stacked Omnidirectional
+gs1_encoder_sDataBarLimited = 4  #     ///< GS1 DataBar Limited
+gs1_encoder_sDataBarExpanded = 5  #     ///< GS1 DataBar Expanded (Stacked)
+gs1_encoder_sUPCA = 6  #     ///< UPC-A
+gs1_encoder_sUPCE = 7  #     ///< UPC-E
+gs1_encoder_sEAN13 = 8  #     ///< EAN-13
+gs1_encoder_sEAN8 = 9  #     ///< EAN-8
+gs1_encoder_sGS1_128_CCA = 10  #     ///< GS1-128 with CC-A or CC-B
+gs1_encoder_sGS1_128_CCC = 11  #     ///< GS1-128 with CC-C
+gs1_encoder_sQR = 12  #     ///< (GS1) QR Code
+gs1_encoder_sDM = 13  #     ///< (GS1) Data Matrix
+gs1_encoder_sNUMSYMS = 14  #     ///< Value is the number of symbologies
+
+
+# TODO read these enums from object file
+gs1_encoder_dBMP = 0
+gs1_encoder_dTIF = 1
+gs1_encoder_dRAW = 2
+
+
+def error_things(ctx, result):
+
+    if result:
+        return
+
+    msg = c_library.gs1_encoder_getErrMsg(ctx)
+    raise Gs1GeneratorError(msg.decode("ascii"))
 
 
 def generate_gs1_datamatrix(
@@ -147,109 +183,74 @@ def generate_gs1_datamatrix(
 ) -> bytes:
 
     if scaling:
-        scalingparams = scaling_params_factory(scaling)
+        scalingparams = ScalingParams.factory(scaling)
     else:
-        scalingparams=None
+        scalingparams = None
 
     ctx = c_library.gs1_encoder_init(None)
 
     try:
-
-        # TODO read these enums from object file
-        gs1_encoder_dBMP = 0
-        gs1_encoder_dTIF = 1
-        gs1_encoder_dRAW = 2
         result = c_library.gs1_encoder_setFormat(ctx, gs1_encoder_dBMP)
-        assert result is True
+        error_things(ctx, result)
 
-        result = c_library.gs1_encoder_setOutFile(ctx, b"")  # set to buffer
-        assert result is True
-
-        # TODO read these enums from object file
-        gs1_encoder_sNONE = -1  #        ///< None defined
-        gs1_encoder_sDataBarOmni = 0  #     ///< GS1 DataBar Omnidirectional
-        gs1_encoder_sDataBarTruncated = 1  #     ///< GS1 DataBar Truncated
-        gs1_encoder_sDataBarStacked = 2  #     ///< GS1 DataBar Stacked
-        gs1_encoder_sDataBarStackedOmni = (
-            3  #     ///< GS1 DataBar Stacked Omnidirectional
-        )
-        gs1_encoder_sDataBarLimited = 4  #     ///< GS1 DataBar Limited
-        gs1_encoder_sDataBarExpanded = 5  #     ///< GS1 DataBar Expanded (Stacked)
-        gs1_encoder_sUPCA = 6  #     ///< UPC-A
-        gs1_encoder_sUPCE = 7  #     ///< UPC-E
-        gs1_encoder_sEAN13 = 8  #     ///< EAN-13
-        gs1_encoder_sEAN8 = 9  #     ///< EAN-8
-        gs1_encoder_sGS1_128_CCA = 10  #     ///< GS1-128 with CC-A or CC-B
-        gs1_encoder_sGS1_128_CCC = 11  #     ///< GS1-128 with CC-C
-        gs1_encoder_sQR = 12  #     ///< (GS1) QR Code
-        gs1_encoder_sDM = 13  #     ///< (GS1) Data Matrix
-        gs1_encoder_sNUMSYMS = 14  #     ///< Value is the number of symbologies
+        result = c_library.gs1_encoder_setOutFile(
+            ctx, b""
+        )  # output to buffer, not a file
+        error_things(ctx, result)
 
         result = c_library.gs1_encoder_setSym(ctx, gs1_encoder_sDM)
-        assert result is True
+        error_things(ctx, result)
 
         result = c_library.gs1_encoder_setAIdataStr(ctx, data.encode("ascii"))
-        assert result is True
+        error_things(ctx, result)
 
         # more configuration
 
-        # 1. Pixel-based scaling system (no real world dimensions)
-
         if isinstance(scalingparams, PixelScaling):
+            # 1. Pixel-based scaling system (no real world dimensions)
             result = c_library.gs1_encoder_setPixMult(ctx, scalingparams.pix_mult)
-            assert result is True
+            error_things(ctx, result)
         elif isinstance(scalingparams, DeviceDotScaling):
             # 2. Device-dot scaling system (real world dimensions)
-            # result=c_library.gs1_encoder_setDeviceResolution.argtypes=[ctx_pointer_type,ctypes.c_double]
-            # set device resolution in dots per unit. to be used with and before setXdimension
             result = c_library.gs1_encoder_setDeviceResolution(
                 ctx, scalingparams.resolution
             )
-            assert result is True
+            error_things(ctx, result)
 
-            # result=c_library.gs1_encoder_setXdimension.argtypes=[ctx_pointer_type,ctypes.c_double,ctypes.c_double,ctypes.c_double]
             result = c_library.gs1_encoder_setXdimension(
                 ctx,
                 scalingparams.min_x_dim,
                 scalingparams.target_x_dim,
                 scalingparams.max_x_dim,
             )
-            assert result is True
+            error_things(ctx, result)
         else:
             if scalingparams is None:
                 pass
             else:
                 assert False
 
-        # calibration: set undercut
-
-        # result=c_library.gs1_encoder_setXundercut.argtypes=[ctx_pointer_type,ctypes.c_int]
         if x_undercut is not None:
             result = c_library.gs1_encoder_setXundercut(ctx, x_undercut)
-            assert result is True
+            error_things(ctx, result)
 
         if y_undercut is not None:
-            # result=c_library.gs1_encoder_setYundercut.argtypes=[ctx_pointer_type,ctypes.c_int]
             result = c_library.gs1_encoder_setYundercut(ctx, y_undercut)
-            assert result is True
+            error_things(ctx, result)
 
-        # cionfigure datamatrix
-
-        # result=c_library.gs1_encoder_setDmRows.argtypes=[ctx_pointer_type,ctypes.c_int]
-
+        # Configure datamatrix parameters
         if dm_rows is not None:
             result = c_library.gs1_encoder_setDmRows(ctx, dm_rows)
-            assert result is True
+            error_things(ctx, result)
 
         if dm_cols is not None:
-            # result=c_library.gs1_encoder_setDmColumns.argtypes=[ctx_pointer_type,ctypes.c_int]
             result = c_library.gs1_encoder_setDmColumns(ctx, dm_cols)
-            assert result is True
+            error_things(ctx, result)
 
-        # do actual things
+        # Generate output
 
         result = c_library.gs1_encoder_encode(ctx)
-        assert result is True
+        error_things(ctx, result)
 
         size = c_library.gs1_encoder_getBufferSize(ctx)
         buffer = ctypes.create_string_buffer(size)
@@ -259,13 +260,5 @@ def generate_gs1_datamatrix(
 
         return buffer.raw
     finally:
+        # pass
         c_library.gs1_encoder_free(ctx)
-
-
-# with open("itsaslive.bmp", "rb") as f:
-#     baseline_data=f.read()
-#     print()
-
-
-# things = get_bmp_data("(01)94210325403182(30)2(3922)0460(93)TQ")
-# assert things==baseline_data
