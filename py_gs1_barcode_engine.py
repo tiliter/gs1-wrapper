@@ -260,5 +260,4 @@ def generate_gs1_datamatrix(
 
         return buffer.raw
     finally:
-        # pass
         c_library.gs1_encoder_free(ctx)
