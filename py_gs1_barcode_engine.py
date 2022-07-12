@@ -231,48 +231,48 @@ def generate_gs1_datamatrix(
 ) -> bytes:
 
     if scaling:
-        scalingparams = ScalingParams.factory(scaling)
+        scaling_params = ScalingParams.factory(scaling)
     else:
-        scalingparams = None
+        scaling_params = None
 
-    gs1_encoder = Gs1Encoder()
-    gs1_encoder.setFormat(Format.gs1_encoder_dBMP)
-    gs1_encoder.setOutFile(OUTPUT_TO_STREAM)
-    gs1_encoder.setSym(Sym.gs1_encoder_sDM)
-    gs1_encoder.setAIdataStr(data)
+    gs1 = Gs1Encoder()
+    gs1.setFormat(Format.gs1_encoder_dBMP)
+    gs1.setOutFile(OUTPUT_TO_STREAM)
+    gs1.setSym(Sym.gs1_encoder_sDM)
+    gs1.setAIdataStr(data)
 
     # more configuration
 
-    if isinstance(scalingparams, PixelScaling):
+    if isinstance(scaling_params, PixelScaling):
         # 1. Pixel-based scaling system (no real world dimensions)
-        gs1_encoder.setPixMult(scalingparams.pix_mult)
-    elif isinstance(scalingparams, DeviceDotScaling):
+        gs1.setPixMult(scaling_params.pix_mult)
+    elif isinstance(scaling_params, DeviceDotScaling):
         # 2. Device-dot scaling system (real world dimensions)
-        gs1_encoder.setDeviceResolution(scalingparams.resolution)
-        gs1_encoder.setXdimension(
-            scalingparams.min_x_dim,
-            scalingparams.target_x_dim,
-            scalingparams.max_x_dim,
+        gs1.setDeviceResolution(scaling_params.resolution)
+        gs1.setXdimension(
+            scaling_params.min_x_dim,
+            scaling_params.target_x_dim,
+            scaling_params.max_x_dim,
         )
     else:
-        if scalingparams is None:
+        if scaling_params is None:
             pass
         else:
             assert False
 
     if x_undercut is not None:
-        gs1_encoder.setXundercut(x_undercut)
+        gs1.setXundercut(x_undercut)
 
     if y_undercut is not None:
-        gs1_encoder.setYundercut(y_undercut)
+        gs1.setYundercut(y_undercut)
 
     # Configure datamatrix parameters
     if dm_rows is not None:
-        gs1_encoder.setDmRows(dm_rows)
+        gs1.setDmRows(dm_rows)
 
     if dm_cols is not None:
-        gs1_encoder.setDmColumns(dm_cols)
+        gs1.setDmColumns(dm_cols)
 
     # Generate output
-    gs1_encoder.encode()
-    return gs1_encoder.getOutputBuffer()
+    gs1.encode()
+    return gs1.getOutputBuffer()
