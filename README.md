@@ -38,7 +38,7 @@ with open("barcode.bmp", "wb") as f:
 
 ```
 pip install -r requirements.txt
-./compile_and_test_lib.sh
+python compile_and_test_lib.py
 pytest
 ```
 
