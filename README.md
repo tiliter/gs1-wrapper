@@ -1,5 +1,7 @@
 # GS1 Library wrapper
 
+[![Documentation Status](https://readthedocs.org/projects/gs1-barcode-engine-python-wrapper/badge/?version=latest)](https://gs1-barcode-engine-python-wrapper.readthedocs.io/en/latest/?badge=latest)
+
 A thin Python wrapper around https://github.com/gs1/gs1-barcode-engine.
 
 Docs: https://gs1-barcode-engine-python-wrapper.readthedocs.io/en/latest/
