@@ -2,7 +2,7 @@
 
 [![Documentation Status](https://readthedocs.org/projects/gs1-barcode-engine-python-wrapper/badge/?version=latest)](https://gs1-barcode-engine-python-wrapper.readthedocs.io/en/latest/?badge=latest)
 
-A thin Python wrapper around https://github.com/gs1/gs1-barcode-engine.
+A thin Python wrapper of https://github.com/gs1/gs1-barcode-engine.
 
 Docs: https://gs1-barcode-engine-python-wrapper.readthedocs.io/en/latest/
 
@@ -37,3 +37,20 @@ pip install -r requirements.txt
 ./compile_and_test_lib.sh
 pytest
 ```
+
+## License
+
+Copyright (c) 2022 Edward Ong
+Copyright (c) 2000-2021 GS1 AISBL
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this library except in compliance with the License.
+
+You may obtain a copy of the License at:
+
+<http://www.apache.org/licenses/LICENSE-2.0>
+
+Unless required by applicable law or agreed to in writing, software distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.

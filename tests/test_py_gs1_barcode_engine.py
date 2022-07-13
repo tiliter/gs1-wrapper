@@ -1,6 +1,7 @@
 from pathlib import Path
 import pytest
 import os, psutil
+import sys
 from py_gs1_barcode_engine import generate_gs1_datamatrix, Gs1GeneratorError
 
 
