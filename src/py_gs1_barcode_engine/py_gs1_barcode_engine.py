@@ -11,7 +11,11 @@ class Gs1GeneratorError(Exception):
 
 
 # A. Create library
-c_library = ctypes.CDLL(str(pathlib.Path(__file__).resolve().parent.parent.parent / "build_artifacts/libgs1encoders.so"))
+try:
+    c_library = ctypes.CDLL(str(pathlib.Path(__file__).resolve().parent.parent.parent / "build_artifacts/libgs1encoders.so"))
+except OSError:
+    # HACK: the build artifacts are in a different place when packaged in the wheel.
+    c_library = ctypes.CDLL(str(pathlib.Path(__file__).resolve().parent.parent / "build_artifacts/libgs1encoders.so"))
 
 
 # define expected arguments and return types
