@@ -12,7 +12,7 @@ build:
     python: "3.8"
   jobs:
     pre_build:
-      - ./compile_and_test_lib.sh
+      - python compile_and_test_lib.py
 
 # Build documentation in the docs/ directory with Sphinx
 sphinx:
