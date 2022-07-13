@@ -6,7 +6,11 @@ A thin Python wrapper of https://github.com/gs1/gs1-barcode-engine.
 
 Docs: https://gs1-barcode-engine-python-wrapper.readthedocs.io/en/latest/
 
-Example usage: 
+## Installation
+
+`pip install py-gs1-barcode-engine`
+
+## Example usage
 
 ```
 import py_gs1_barcode_engine
@@ -41,6 +45,7 @@ pytest
 ## License
 
 Copyright (c) 2022 Edward Ong
+
 Copyright (c) 2000-2021 GS1 AISBL
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
