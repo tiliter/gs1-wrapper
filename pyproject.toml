@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gs1_barcode_engine_stolmen"
+version = "0.0.1"
+authors = [
+  { name="Edward Ong", email="edward93@gmail.com" },
+]
+description = "A thin Python wrapper of https://github.com/gs1/gs1-barcode-engine."
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://bitbucket.org/stolmen/gs1-wrapper/src/master/"
+"Bug Tracker" = "TODO"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+filterwarnings = [
+  'ignore:invalid escape sequence \\:DeprecationWarning'
+]

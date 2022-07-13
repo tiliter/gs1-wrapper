@@ -11,7 +11,7 @@ class Gs1GeneratorError(Exception):
 
 
 # A. Create library
-c_library = ctypes.CDLL(str(pathlib.Path(__file__).resolve().parent / "build_artifacts/libgs1encoders.so"))
+c_library = ctypes.CDLL(str(pathlib.Path(__file__).resolve().parent.parent / "build_artifacts/libgs1encoders.so"))
 
 
 # define expected arguments and return types
