@@ -6,6 +6,10 @@ A thin Python wrapper of https://github.com/gs1/gs1-barcode-engine.
 
 Docs: https://gs1-barcode-engine-python-wrapper.readthedocs.io/en/latest/
 
+Pypi: https://pypi.org/project/py-gs1-barcode-engine/
+
+Source: https://bitbucket.org/stolmen/gs1-wrapper
+
 ## Installation
 
 `pip install py-gs1-barcode-engine`

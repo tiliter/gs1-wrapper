@@ -6,7 +6,13 @@
 Welcome to py-gs1-barcode-engine's documentation!
 =================================================
 
-A thin wrapper of gs1-barcode-engine. (https://github.com/gs1/gs1-barcode-engine)
+A thin Python wrapper of https://github.com/gs1/gs1-barcode-engine.
+
+Docs: https://gs1-barcode-engine-python-wrapper.readthedocs.io/en/latest/
+
+Pypi: https://pypi.org/project/py-gs1-barcode-engine/
+
+Source: https://bitbucket.org/stolmen/gs1-wrapper
 
 .. autofunction:: py_gs1_barcode_engine.generate_gs1_datamatrix
 
