@@ -12,7 +12,7 @@
 #
 import pathlib
 import sys
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent / 'src/py_gs1_barcode_engine'))
 
 
 # -- Project information -----------------------------------------------------
