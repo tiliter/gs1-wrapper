@@ -54,7 +54,12 @@ To package this project, run:
 python -m build
 ```
 
-No wheels are generated. Only an sdist distribution is created. 
+To package and upload a new version of this, update the version numnber in pyproject.toml, then run
+```
+./build_and_publish.sh
+```
+
+Note that only an sdist distribution is built and uploaded. No wheel is uploaded.
 
 Output is coped into the `dist/` folder.
 
