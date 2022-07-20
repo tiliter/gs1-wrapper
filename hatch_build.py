@@ -1,7 +1,7 @@
 from hatchling.builders.hooks.plugin.interface import BuildHookInterface
 import pathlib
 import subprocess
-
+import pathlib
 
 
 class CustomBuildHook(BuildHookInterface):
@@ -16,7 +16,7 @@ class CustomBuildHook(BuildHookInterface):
         print(sys.path)
         # hacky path hackery
         import compile_and_test_lib
-        compile_and_test_lib.execute()
+        compile_and_test_lib.execute(pathlib.Path(__file__).resolve().parent / 'build_artifacts')
 
 
         print(build_data)

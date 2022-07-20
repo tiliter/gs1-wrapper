@@ -6,16 +6,25 @@ from typing import Optional
 from enum import Enum
 import pathlib
 
+
 class Gs1GeneratorError(Exception):
     pass
 
 
+SHARED_OBJECT_RELATIVE_PATH = "build_artifacts/libgs1encoders.so"
 # A. Create library
 try:
-    c_library = ctypes.CDLL(str(pathlib.Path(__file__).resolve().parent.parent.parent / "build_artifacts/libgs1encoders.so"))
+    c_library = ctypes.CDLL(
+        str(
+            pathlib.Path(__file__).resolve().parent.parent.parent
+            / SHARED_OBJECT_RELATIVE_PATH
+        )
+    )
 except OSError:
     # HACK: the build artifacts are in a different place when packaged in the wheel.
-    c_library = ctypes.CDLL(str(pathlib.Path(__file__).resolve().parent.parent / "build_artifacts/libgs1encoders.so"))
+    c_library = ctypes.CDLL(
+        str(pathlib.Path(__file__).resolve().parent / SHARED_OBJECT_RELATIVE_PATH)
+    )
 
 
 # define expected arguments and return types

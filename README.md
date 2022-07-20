@@ -46,6 +46,18 @@ python compile_and_test_lib.py
 pytest
 ```
 
+
+## Packaging
+
+To package this project, run:
+```
+python -m build
+```
+
+No wheels are generated. Only an sdist distribution is created. 
+
+Output is coped into the `dist/` folder.
+
 ## License
 
 Copyright (c) 2022 Edward Ong
