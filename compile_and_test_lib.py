@@ -8,16 +8,13 @@ import urllib.request
 def execute(build_artifacts_path: pathlib.Path) -> None:
     """build_artifacts_path: Path to copy build outputs to."""
 
-    # BUILD_ARTIFACTS_FOLDER_NAME = "build_artifacts"
     LIBRARY_NAME = "gs1-barcode-engine"
 
     build_root_path = pathlib.Path(__file__).resolve().parent
     library_path = build_root_path / LIBRARY_NAME
     library_source_path = library_path / "src" / "c-lib"
     build_output_path = library_source_path / "build"
-    # build_artifacts_path = build_root_path / BUILD_ARTIFACTS_FOLDER_NAME
 
-    # shutil.rmtree(build_artifacts_path, ignore_errors=True)
     shutil.rmtree(library_path, ignore_errors=True)
 
     archive_path = build_root_path / "archive.zip"
@@ -39,4 +36,4 @@ def execute(build_artifacts_path: pathlib.Path) -> None:
 
 
 if __name__ == "__main__":
-    execute(pathlib.Path(__file__).resolve().parent / 'build_artifacts')
+    execute(pathlib.Path(__file__).resolve().parent / "build_artifacts")
