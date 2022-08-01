@@ -1,7 +1,7 @@
 # TODO(EDWARD): packaging
 
 import ctypes
-from dataclasses import dataclass
+from pydantic.dataclasses import dataclass
 from typing import Optional
 from enum import Enum
 import pathlib
@@ -118,7 +118,7 @@ class ScalingParams:
 
 @dataclass
 class PixelScaling(ScalingParams):
-    pix_mult: float
+    pix_mult: int
 
 
 @dataclass
@@ -176,7 +176,7 @@ class Gs1Encoder:
         result = c_library.gs1_encoder_setAIdataStr(self._ctx, data.encode("ascii"))
         self._handle_error(result)
 
-    def setPixMult(self, pix_mult: float) -> None:
+    def setPixMult(self, pix_mult: int) -> None:
         result = c_library.gs1_encoder_setPixMult(self._ctx, pix_mult)
         self._handle_error(result)
 

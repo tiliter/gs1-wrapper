@@ -1,7 +1,7 @@
 from pathlib import Path
 import pytest
-import os, psutil
-import sys
+import os
+import psutil
 from py_gs1_barcode_engine import generate_gs1_datamatrix, Gs1GeneratorError
 
 
@@ -153,7 +153,7 @@ def output_dir() -> Path:
 
     yield path
 
-    assert len(list(path.glob("*.*"))) == 1
+    assert len(list(path.glob("*.*"))) == 1, "no file created where one was expected"
 
 
 @pytest.fixture(

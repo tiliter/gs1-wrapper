@@ -20,7 +20,7 @@ authors = [
 description = "A thin Python wrapper of https://github.com/gs1/gs1-barcode-engine."
 readme = "README.md"
 license = { file="LICENSE" }
-requires-python = ">=3.7"
+requires-python = ">=3.6"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: Apache Software License",
