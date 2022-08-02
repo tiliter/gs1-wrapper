@@ -1,3 +1,7 @@
+from setuptools import setup, find_packages
+from setuptools.command.install import install
+import setuptools
+import os
 import pathlib
 import shutil
 import subprocess
@@ -35,8 +39,26 @@ def execute(build_artifacts_path: pathlib.Path) -> None:
     shutil.copytree(build_output_path, build_artifacts_path)
 
 
-def main():
-    execute(pathlib.Path(__file__).resolve().parent / "src" / "py_gs1_barcode_engine" / "build_artifacts")
+class PostInstallScript(install):
+    def run(self):
+        execute(pathlib.Path(__file__).resolve().parent / "build" / "lib" / "py_gs1_barcode_engine" / "build_artifacts")
+        install.run(self)
 
-if __name__ == "__main__":
-    main()
+setup(
+    name="py_gs1_barcode_engine",
+    version="0.0.18",
+    python_requires=">=3.6",
+    install_requires=[
+        "pydantic==1.9.1",
+    ],
+    entry_points={"pyinstaller40": ["hook-dirs = py_gs1_barcode_engine._pyinstaller:get_hook_dirs"]},
+    author="Edward Ong",
+    author_email="edward93@gmail.com",
+    description="A thin Python wrapper of https://github.com/gs1/gs1-barcode-engine.",
+    url="https://bitbucket.org/stolmen/gs1-wrapper",
+    license_files=["LICENSE"],
+    packages=find_packages("src"),
+    package_dir={"": "src"},
+    cmdclass={"install": PostInstallScript},
+)
+
