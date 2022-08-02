@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
 from setuptools.command.install import install
+from distutils.cmd import Command
 import setuptools
 import os
 import pathlib
@@ -44,6 +45,19 @@ class PostInstallScript(install):
         execute(pathlib.Path(__file__).resolve().parent / "build" / "lib" / "py_gs1_barcode_engine" / "build_artifacts")
         install.run(self)
 
+class TestScript(Command):
+    description = 'Compile C Library locally for pytest'
+    user_options = []
+    
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        execute(pathlib.Path(__file__).resolve().parent / "src" / "py_gs1_barcode_engine" / "build_artifacts")
+
 setup(
     name="py_gs1_barcode_engine",
     version="0.0.18",
@@ -59,6 +73,6 @@ setup(
     license_files=["LICENSE"],
     packages=find_packages("src"),
     package_dir={"": "src"},
-    cmdclass={"install": PostInstallScript},
+    cmdclass={"install": PostInstallScript, "test": TestScript},
 )
 
