@@ -27,12 +27,12 @@ include = ["src/py_gs1_barcode_engine/build_artifacts/*"]
 [tool.poetry.dependencies]
 python = ">= 3.6.1"
 pydantic = "1.9.1" # keep in sync with requirements.txt
-keyring = "22.3.0"
-"keyrings.alt" = "4.1.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "7.0.1"
 psutil = "5.9.1"
+keyring = "22.3.0"
+"keyrings.alt" = "4.1.0"
 
 [tool.poetry.scripts]
 build-c-lib = "compile_and_test_lib:main"

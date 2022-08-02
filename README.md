@@ -51,7 +51,8 @@ pytest
 
 To package this project, run:
 ```
-python -m build
+poetry run build-c-lib
+poetry build
 ```
 
 To package and upload a new version of this, update the version numnber in pyproject.toml, then run
@@ -61,7 +62,7 @@ To package and upload a new version of this, update the version numnber in pypro
 
 Note that only an sdist distribution is built and uploaded. No wheel is uploaded.
 
-Output is coped into the `dist/` folder.
+Output is copied into the `dist/` folder.
 
 ## License
 
