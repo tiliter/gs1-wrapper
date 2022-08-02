@@ -35,5 +35,8 @@ def execute(build_artifacts_path: pathlib.Path) -> None:
     shutil.copytree(build_output_path, build_artifacts_path)
 
 
+def main():
+    execute(pathlib.Path(__file__).resolve().parent / "src" / "py_gs1_barcode_engine" / "build_artifacts")
+
 if __name__ == "__main__":
-    execute(pathlib.Path(__file__).resolve().parent / "build_artifacts")
+    main()

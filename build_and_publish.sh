@@ -1,6 +1,9 @@
 set -ex
 
+python -m pip install -r requirements.txt
 rm -rf dist
 # python -m build  # build both
-python -m build -s   # build sdist only
-python -m twine upload --verbose dist/* --username stolmen
+poetry install 
+poetry run build-c-lib
+poetry build --format sdist   # build sdist only
+poetry publish --username stolmen
