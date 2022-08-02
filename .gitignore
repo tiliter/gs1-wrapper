@@ -3,6 +3,7 @@ __pycache__/
 .pyc
 .DS_Store
 .test_output/
+*.egg-info/
 dist/
 build_artifacts/
 gs1-barcode-engine/
