@@ -60,7 +60,7 @@ class TestScript(Command):
 
 setup(
     name="py_gs1_barcode_engine",
-    version="0.0.18",
+    version="0.0.19",
     python_requires=">=3.6",
     install_requires=[
         "pydantic==1.9.*",
