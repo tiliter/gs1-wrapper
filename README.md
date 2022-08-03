@@ -42,7 +42,7 @@ with open("barcode.bmp", "wb") as f:
 
 ```
 pip install -r requirements.txt
-python compile_and_test_lib.py
+python setup.py test
 pytest
 ```
 
@@ -51,11 +51,10 @@ pytest
 
 To package this project, run:
 ```
-poetry run build-c-lib
-poetry build
+python -m build -s
 ```
 
-To package and upload a new version of this, update the version numnber in pyproject.toml, then run
+To package and upload a new version of this, update the version numnber in setup.py, then run
 ```
 ./build_and_publish.sh
 ```
