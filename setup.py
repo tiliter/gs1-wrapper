@@ -63,7 +63,7 @@ setup(
     version="0.0.18",
     python_requires=">=3.6",
     install_requires=[
-        "pydantic==1.9.1",
+        "pydantic==1.9.*",
     ],
     entry_points={"pyinstaller40": ["hook-dirs = py_gs1_barcode_engine._pyinstaller:get_hook_dirs"]},
     author="Edward Ong",
@@ -75,4 +75,3 @@ setup(
     package_dir={"": "src"},
     cmdclass={"install": PostInstallScript, "test": TestScript},
 )
-
