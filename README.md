@@ -2,13 +2,16 @@
 
 [![Documentation Status](https://readthedocs.org/projects/gs1-barcode-engine-python-wrapper/badge/?version=latest)](https://gs1-barcode-engine-python-wrapper.readthedocs.io/en/latest/?badge=latest)
 
-A thin Python wrapper of https://github.com/gs1/gs1-barcode-engine.
+A Python wrapper of https://github.com/gs1/gs1-barcode-engine.
 
 Docs: https://gs1-barcode-engine-python-wrapper.readthedocs.io/en/latest/
 
 Pypi: https://pypi.org/project/py-gs1-barcode-engine/
 
 Source: https://bitbucket.org/stolmen/gs1-wrapper
+
+TODO 
+- expose a thin wrapper interface.
 
 ## Installation
 
@@ -65,8 +68,7 @@ Output is copied into the `dist/` folder.
 
 ## License
 
-Copyright (c) 2022 Edward Ong
-
+Copyright (c) 2022 Tiliter Pty Ltd
 Copyright (c) 2000-2021 GS1 AISBL
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
