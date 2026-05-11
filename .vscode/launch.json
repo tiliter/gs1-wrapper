@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Setup gs1-wrapper venv",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "env -u PYENV_VERSION bash -c 'python3.10 -m venv .venv && .venv/bin/pip install -r requirements.txt'",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Build: Compile C Library",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "env -u PYENV_VERSION .venv/bin/python setup.py test",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Test: gs1-wrapper (pytest)",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "env -u PYENV_VERSION PYTHONPATH=src .venv/bin/python -m pytest tests/ -v",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

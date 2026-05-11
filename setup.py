@@ -48,7 +48,7 @@ class PostInstallScript(install):
 class TestScript(Command):
     description = 'Compile C Library locally for pytest'
     user_options = []
-    
+
     def initialize_options(self):
         pass
 
@@ -61,10 +61,8 @@ class TestScript(Command):
 setup(
     name="py_gs1_barcode_engine",
     version="0.0.19",
-    python_requires=">=3.6",
-    install_requires=[
-        "pydantic==1.9.*",
-    ],
+    python_requires=">=3.7",
+    install_requires=[],
     entry_points={"pyinstaller40": ["hook-dirs = py_gs1_barcode_engine._pyinstaller:get_hook_dirs"]},
     author="Tiliter Pty Ltd",
     author_email="software@tiliter.com",
