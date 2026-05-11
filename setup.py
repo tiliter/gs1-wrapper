@@ -60,7 +60,7 @@ class TestScript(Command):
 
 setup(
     name="py_gs1_barcode_engine",
-    version="0.0.19",
+    version="0.0.22",
     python_requires=">=3.7",
     install_requires=[],
     entry_points={"pyinstaller40": ["hook-dirs = py_gs1_barcode_engine._pyinstaller:get_hook_dirs"]},

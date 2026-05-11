@@ -21,6 +21,13 @@
             "request": "launch",
             "command": "env -u PYENV_VERSION PYTHONPATH=src .venv/bin/python -m pytest tests/ -v",
             "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Publish to PyPI",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "env -u PYENV_VERSION bash build_and_publish.sh",
+            "cwd": "${workspaceFolder}"
         }
     ]
 }
