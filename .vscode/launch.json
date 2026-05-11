@@ -5,7 +5,7 @@
             "name": "Setup gs1-wrapper venv",
             "type": "node-terminal",
             "request": "launch",
-            "command": "env -u PYENV_VERSION bash -c 'python3.10 -m venv .venv && .venv/bin/pip install -r requirements.txt'",
+            "command": "env -u PYENV_VERSION bash -c 'set -e; python3.10 -m venv .venv; .venv/bin/pip install -r requirements.txt'",
             "cwd": "${workspaceFolder}"
         },
         {
