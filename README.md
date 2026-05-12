@@ -10,7 +10,7 @@ Pypi: https://pypi.org/project/py-gs1-barcode-engine/
 
 Source: https://bitbucket.org/stolmen/gs1-wrapper
 
-TODO 
+TODO
 - expose a thin wrapper interface.
 
 ## Installation
@@ -38,7 +38,7 @@ bmp_data = py_gs1_barcode_engine.generate_gs1_datamatrix(
 
 with open("barcode.bmp", "wb") as f:
     f.write(bmp_data)
-        
+
 ```
 
 ## Running tests
@@ -68,7 +68,7 @@ Output is copied into the `dist/` folder.
 
 ## License
 
-Copyright (c) 2022 Tiliter Pty Ltd
+Copyright (c) 2026 Tiliter Pty Ltd
 Copyright (c) 2000-2021 GS1 AISBL
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use

@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Setup gs1-wrapper venv",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "env -u PYENV_VERSION bash -c 'set -e; python3.10 -m venv .venv; .venv/bin/pip install -r requirements.txt -r dev-requirements.txt'",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Build: Compile C Library",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "env -u PYENV_VERSION .venv/bin/python setup.py test",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Test: gs1-wrapper (pytest)",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "env -u PYENV_VERSION PYTHONPATH=src .venv/bin/python -m pytest tests/ -v",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Publish to PyPI",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "env -u PYENV_VERSION bash -c 'set -e; rm -rf dist; .venv/bin/python -m build -s; .venv/bin/python -m twine upload --verbose dist/* --username __token__'",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

@@ -1,7 +1,7 @@
 # TODO(EDWARD): packaging
 
 import ctypes
-from pydantic.dataclasses import dataclass
+from dataclasses import dataclass
 from typing import Optional
 from enum import Enum
 import pathlib
@@ -246,18 +246,18 @@ def generate_gs1_datamatrix(
     """
     Generate a GS1 datamatrix.
 
-    
+
 
     :param data: Data to encode in barcode.
     :type data: str
     :param dm_rows: Define the number of rows in the data matrix. \
         If None, then gs1_barcode_engine will choose an appropriate value. \
-        See gs1_encoder_getDmRows_. 
-    
+        See gs1_encoder_getDmRows_.
+
     :type dm_rows: int or None
     :param dm_cols: Define the number of columns in the data matrix. \
         If None, then gs1_barcode_engine will choose an appropriate value. \
-        See gs1_encoder_setDmColumns_. 
+        See gs1_encoder_setDmColumns_.
     :type dm_cols: int or None
     :param scaling: Scaling parameters to define the size of the generated output. \
         This can be one of two styles. See `Image Scaling Models`_ for more details.
@@ -268,13 +268,13 @@ def generate_gs1_datamatrix(
             - Pass a dictionary containing one key ``pix_mult`` with an int value which is the width of a module in units of pixels. \
                 e.g. ``{"pix_mult": 5}``.
 
-        Device dot scaling, 
+        Device dot scaling,
             - Define resolution of target medium and target module dimensions in physical dimensions.
             - Use if resolution of the output medium and target physical size are important.
             - Pass a dictionary with keys ``resolution`` (float) and ``target_x_dim`` (float), and optionally \
                 the keys ``min_x_dim`` (float) and ``max_x_dim`` (float). \
                 These quantities must be in the same unit of measurement e.g. DPI and inches, otherwise this function may yield unexpected results. \
-                e.g. ``{"resolution": 300, "target_x_dim": 0.1}`` 
+                e.g. ``{"resolution": 300, "target_x_dim": 0.1}``
 
         The library will attempt to meet these contraints and if these constraints are invalid, \
         py_gs1_barcode_engine.Gs1GeneratorError will be raised.
@@ -282,10 +282,10 @@ def generate_gs1_datamatrix(
     :param x_undercut: Compensate for horizontal print growth by shaving this number of pixels from \
         both sides of each module. None is equivalent to 0. See gs1_encoder_setXundercut_.
     :type x_undercut: float or None
-    :param y_undercut: Compensate for vertical print growth by shaving this number of pixels from \ 
+    :param y_undercut: Compensate for vertical print growth by shaving this number of pixels from \
         both sides of each module. None is equivalent to 0. See gs1_encoder_setYundercut_.
     :type y_undercut: float or None
-    
+
     :raise py_gs1_barcode_engine.Gs1GeneratorError: If the underlying library raises an exception.
 
     :return: BMP image as bytes
